@@ -1,0 +1,40 @@
+name: Build and test Go
+on:
+  push:
+    paths-ignore:
+      - .gitattributes
+      - .gitignore
+      - LICENSE
+      - README.md
+  pull_request:
+    paths-ignore:
+      - .gitattributes
+      - .gitignore
+      - LICENSE
+      - README.md
+
+jobs:
+  build:
+    strategy:
+      fail-fast: true
+      matrix:
+        goos: [ "linux", "darwin", "windows", "freebsd" ]
+        goarch: [ "amd64", "386", "arm", "arm64" ]
+        exclude:
+          - goos: "darwin"
+            goarch: "386"
+          - goos: "darwin"
+            goarch: "arm"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: "go.mod"
+      - name: Build binary
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: go build .
+      - name: Run all tests
+        run: go test ./...
