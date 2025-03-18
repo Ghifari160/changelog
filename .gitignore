@@ -16,3 +16,4 @@ out/
 .vscode
 
 # Project ignores
+CHANGELOG.test.md
