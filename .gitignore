@@ -11,9 +11,12 @@ lost+found
 # Stack ignores
 dist/
 out/
+node_modules/
 
 # IDE ignores
 .vscode
 
 # Project ignores
 CHANGELOG.test.md
+changelog/
+install.log

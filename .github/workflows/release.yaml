@@ -5,7 +5,7 @@ on:
       - "*"
 
 jobs:
-  build:
+  build-go:
     strategy:
       fail-fast: false
       matrix:
@@ -96,3 +96,28 @@ jobs:
           OUTPUT: ${{ vars.S3_BUCKET }}/${{ env.TAG_NAME }}/
         run: |
           s3cmd put "$ARCHIVE_NAME" -P "$OUTPUT"
+
+  build-wrapper:
+    runs-on: ubuntu-24.04
+    needs: build-go
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+      - name: Install dependencies (without script)
+        run: npm ci --ignore-scripts
+      - name: Build wrapper and scripts
+        run: npm run build
+      - name: Reinstall dependencies
+        run: npm ci
+      - name: Prepare workspace
+        run: npm run clean
+      - name: Publish wrapper (dry-run)
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public --dry-run
