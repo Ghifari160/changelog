@@ -19,6 +19,11 @@ This project attempts to adhere to [Semantic Versioning](https://semver.org/spec
 - Command `version`, which prints the app version.
 - Command `promote`, which promotes unreleased draft to be the next release version.
 - Command `prepare`, which prepares the changelog for the next release cycle.
+- NodeJS wrapper.
+  Changelog can be installed through npm (`npm install @ghifari160/changelog`).
+  On supported platforms, the pre-install hook download and install the precompiled binary for that platform.
+  It can also be imported as a module, which will return the path to the changelog binary.
+  Note: installation will silently fail of installed with `--ignore-scripts`.
 
 ### Changed
 
