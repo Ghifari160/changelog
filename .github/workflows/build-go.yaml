@@ -2,27 +2,29 @@ name: Build and test Go
 on:
   push:
     paths:
-      - .github/workflows/build-go.yaml
-      - go.mod
-      - go.sum
-      - main.go
-      - command/**
-      - keepachangelog/**
-      - markdown/**
+      - '.github/workflows/build-go.yaml'
+      - 'go.mod'
+      - 'go.sum'
+      - 'main.go'
+      - 'command/**'
+      - 'keepachangelog/**'
+      - 'markdown/**'
+    branches:
+      - '*'
     tags-ignore:
-      - "*"
+      - '*'
   pull_request:
     paths:
-      - .github/workflows/build-go.yaml
-      - go.mod
-      - go.sum
-      - main.go
-      - command/**
-      - keepachangelog/**
-      - markdown/**
+      - '.github/workflows/build-go.yaml'
+      - 'go.mod'
+      - 'go.sum'
+      - 'main.go'
+      - 'command/**'
+      - 'keepachangelog/**'
+      - 'markdown/**'
 
 jobs:
-  build:
+  build-go:
     strategy:
       fail-fast: true
       matrix:
