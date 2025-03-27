@@ -39,7 +39,9 @@ jobs:
           echo "ARCHIVE_NAME=changelog-${GOOS}_${GOARCH}-$TAG.tar.gz" >> $GITHUB_ENV
 
       - name: Build binary
-        run: go build -trimpath -ldflags="-s -w" -o out/bin/changelog .
+        env:
+          BIN_EXT: ${{ matrix.goos == 'windows' && '.exe' || '' }}
+        run: go build -trimpath -ldflags="-s -w" -o "out/bin/changelog${BIN_EXT}" .
       - run: cp LICENSE out/
       - run: cp CHANGELOG.md out/
       - run: cp README.md out/
@@ -120,4 +122,4 @@ jobs:
       - name: Publish wrapper (dry-run)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --provenance --access public --dry-run
+        run: npm publish --provenance --access public

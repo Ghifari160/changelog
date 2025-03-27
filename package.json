@@ -30,7 +30,7 @@
     "changelog.exe": "changelog/bin/changelog.exe"
   },
   "binary": {
-    "url": "https://g16projectstaging.nyc3.digitaloceanspaces.com/changelog/__VERSION__/changelog-__PLATFORM__-__VERSION__.tar.gz"
+    "url": "https://projects.gassets.space/changelog/__VERSION__/changelog-__PLATFORM__-__VERSION__.tar.gz"
   },
   "files": [
     "package.json",
