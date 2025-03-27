@@ -7,7 +7,7 @@ All notable changes in Changelog will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project attempts to adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [UNRELEASED]
+## [0.1.0] - 2025-03-26
 
 ### Added
 
@@ -24,13 +24,3 @@ This project attempts to adhere to [Semantic Versioning](https://semver.org/spec
   On supported platforms, the pre-install hook download and install the precompiled binary for that platform.
   It can also be imported as a module, which will return the path to the changelog binary.
   Note: installation will silently fail of installed with `--ignore-scripts`.
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
