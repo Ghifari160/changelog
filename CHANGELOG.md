@@ -27,6 +27,8 @@ This project attempts to adhere to [Semantic Versioning](https://semver.org/spec
 
 - When installing through NPM on Windows, the pre-installation hook now downloads the correct archive.
 - NodeJS wrapper no longer prints the path to temporary files when downloading archives.
+- Command `prepare` now prints all default and user provided sections to the changelog file.
+  Previously, a changelog file without an existing `unreleased` version causes the command to output an empty version.
 
 ### Security
 

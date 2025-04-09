@@ -95,8 +95,9 @@ func CommandPrepare(ctx *cli.Context) error {
 
 	if unreleased == nil {
 		unreleased = &keepachangelog.Version{
-			ID:       "UNRELEASED",
-			Sections: make([]keepachangelog.Section, 0),
+			ID:         "UNRELEASED",
+			Unreleased: true,
+			Sections:   make([]keepachangelog.Section, 0),
 		}
 	}
 
