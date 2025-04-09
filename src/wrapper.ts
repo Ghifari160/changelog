@@ -1,7 +1,10 @@
+import type { Options, Result } from "execa";
 import type { Platform, Arch } from "./platform";
 
 import path from "path";
 import fs from "fs";
+
+import { execa } from "execa";
 
 import { downloadAndExtract } from "./download";
 
@@ -73,6 +76,25 @@ class BinWrapper {
 
     path(): string {
         return path.join(this.destination, this.binName);
+    }
+
+    async run(args: string[]): Promise<Result<Options>>;
+    async run(...args: string[]): Promise<Result<Options>>;
+    async run(
+        args: string[] | string = [ "--version" ],
+        ...others: string[]
+    ): Promise<Result<Options>> {
+        if(Array.isArray(args) && others.length > 0) {
+            throw new Error("args must be array or list, not both");
+        }
+
+        if(typeof args === "string") {
+            args = [args, ...others];
+        }
+
+        await this.ensureExist();
+
+        return execa(this.path(), args);
     }
 
     async ensureExist(): Promise<void> {

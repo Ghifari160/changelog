@@ -50,6 +50,7 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
+    "execa": "^9.5.2",
     "tar": "^7.4.3"
   }
 }
