@@ -7,9 +7,7 @@ All notable changes in Changelog will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project attempts to adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [UNRELEASED]
-
-### Added
+## [0.2.0] - 2025-04-08
 
 ### Changed
 
@@ -19,18 +17,12 @@ This project attempts to adhere to [Semantic Versioning](https://semver.org/spec
 - When installing on unsupported platforms through NPM, the wrapper will attempt to build from source archive.
   Note: building from source requires [Go](https://go.dev).
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - When installing through NPM on Windows, the pre-installation hook now downloads the correct archive.
 - NodeJS wrapper no longer prints the path to temporary files when downloading archives.
 - Command `prepare` now prints all default and user provided sections to the changelog file.
   Previously, a changelog file without an existing `unreleased` version causes the command to output an empty version.
-
-### Security
 
 ## [0.1.0] - 2025-03-26
 
