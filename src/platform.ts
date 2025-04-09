@@ -2,7 +2,26 @@ export type Platform = typeof process.platform;
 export type Arch = typeof process.arch;
 
 export function osArchPair(os: Platform = process.platform, arch: Arch = process.arch): string {
-    return `${os}_${normalizeArch(arch)}`;
+    return `${normalizeOS(os)}_${normalizeArch(arch)}`;
+}
+
+function normalizeOS(os: Platform = process.platform): string {
+    switch(os) {
+        case "win32":
+            return "windows";
+
+        case "aix":
+        case "android":
+        case "darwin":
+        case "freebsd":
+        case "haiku":
+        case "linux":
+        case "openbsd":
+        case "sunos":
+        case "cygwin":
+        case "netbsd":
+            return os;
+    }
 }
 
 function normalizeArch(arch: Arch = process.arch): string {
