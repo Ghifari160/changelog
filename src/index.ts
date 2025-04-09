@@ -23,7 +23,6 @@ const changelog = new BinWrapper()
     .src(downloadURL("freebsd", "ia32"), "freebsd", "ia32")
     .src(downloadURL("freebsd", "x64"), "freebsd", "x64")
     .src(downloadURL("freebsd", "arm"), "freebsd", "arm")
-    .src(downloadURL("freebsd", "arm64"), "freebsd", "arm64")
+    .src(downloadURL("freebsd", "arm64"), "freebsd", "arm64");
 
-    .path();
 export default changelog;
