@@ -49,3 +49,24 @@ export async function tempFileTask(
 }): Promise<void> {
     return runTask(tempFile(options), cb);
 }
+
+export function tempDirectory({
+    prefix,
+}: {
+    prefix?: string,
+} = {}): string {
+    const dir = getPath(prefix);
+
+    fsSync.mkdirSync(dir);
+
+    return dir;
+}
+
+export async function tempDirectoryTask(
+    cb: (tempPath: string) => Promise<void>,
+    options?: {
+        prefix?: string,
+    },
+): Promise<void> {
+    return runTask(tempDirectory(options), cb);
+}
