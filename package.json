@@ -30,7 +30,8 @@
     "changelog.exe": "changelog/bin/changelog.exe"
   },
   "binary": {
-    "url": "https://projects.gassets.space/changelog/__VERSION__/changelog-__PLATFORM__-__VERSION__.tar.gz"
+    "url": "https://projects.gassets.space/changelog/__VERSION__/changelog-__PLATFORM__-__VERSION__.tar.gz",
+    "src": "https://github.com/ghifari160/changelog/archive/refs/__REFS__/__REF__.tar.gz"
   },
   "files": [
     "package.json",

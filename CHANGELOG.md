@@ -7,6 +7,28 @@ All notable changes in Changelog will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project attempts to adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [UNRELEASED]
+
+### Added
+
+### Changed
+
+- Default export for NodeJS wrapper is now the wrapper object itself.
+  See `src/wrapper.ts` for more information.
+- NodeJS wrapper pre-installation hook now imports the default export for NodeJS wrapper module.
+- When installing on unsupported platforms through NPM, the wrapper will attempt to build from source archive.
+  Note: building from source requires [Go](https://go.dev).
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+- When installing through NPM on Windows, the pre-installation hook now downloads the correct archive.
+
+### Security
+
 ## [0.1.0] - 2025-03-26
 
 ### Added

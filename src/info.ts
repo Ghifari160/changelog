@@ -15,7 +15,12 @@ interface Package {
     description: string,
     binary: {
         url: string,
-    }
+        src: string,
+    },
+    repository: {
+        type: "git",
+        url: string,
+    },
 }
 
 function getPackage(dir: string = path.join(__dirname, "..")): Package {
@@ -28,7 +33,17 @@ const info = getPackage();
 export default info;
 
 export function downloadURL(os: Platform, arch: Arch): string {
-    return info.binary.url
+    return fillVars(info.binary.url, os, arch);
+}
+
+export function sourceURL(refs?: string, ref?: string): string {
+    return fillVars(info.binary.src, undefined, undefined, refs, ref);
+}
+
+function fillVars(str: string, os?: Platform, arch?: Arch, refs: string = "tags", ref?: string): string {
+    return str
         .replaceAll(/__VERSION__/g, info.version)
-        .replaceAll(/__PLATFORM__/g, osArchPair(os, arch));
+        .replaceAll(/__PLATFORM__/g, osArchPair(os || process.platform, arch || process.arch))
+        .replaceAll(/__REFS__/g, refs)
+        .replaceAll(/__REF__/g, ref || info.version);
 }
