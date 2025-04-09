@@ -26,6 +26,7 @@ This project attempts to adhere to [Semantic Versioning](https://semver.org/spec
 ### Fixed
 
 - When installing through NPM on Windows, the pre-installation hook now downloads the correct archive.
+- NodeJS wrapper no longer prints the path to temporary files when downloading archives.
 
 ### Security
 

@@ -27,7 +27,6 @@ export async function download(url: string, dest: string) {
 
 export async function downloadAndExtract(url: string, dest: string) {
     await tempFileTask(async temp => {
-        console.log(temp);
         await download(url, temp);
         await extract(temp, dest, "tar");
     });
