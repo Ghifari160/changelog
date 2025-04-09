@@ -9,7 +9,7 @@
     "prebuild": "tsc -d -p ./src/tsconfig.mjs.json",
     "build": "npm run prebuild && npm run build:ts",
     "build:ts": "mjscjs -p ./src/tsconfig.mjs.json",
-    "clean": "del-cli dist changelog"
+    "clean": "del-cli dist vendor/changelog"
   },
   "repository": {
     "type": "git",
@@ -26,8 +26,8 @@
   },
   "homepage": "https://github.com/Ghifari160/changelog#readme",
   "bin": {
-    "changelog": "changelog/bin/changelog",
-    "changelog.exe": "changelog/bin/changelog.exe"
+    "changelog": "vendor/changelog/bin/changelog",
+    "changelog.exe": "vendor/changelog/bin/changelog.exe"
   },
   "binary": {
     "url": "https://projects.gassets.space/changelog/__VERSION__/changelog-__PLATFORM__-__VERSION__.tar.gz",

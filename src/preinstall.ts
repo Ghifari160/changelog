@@ -47,7 +47,8 @@ bin.run("version").then(() => {
 
             await execa("go", [
                 "build",
-                "-o", path.join("changelog", "bin", "changelog"),
+                "-mod=mod",
+                "-o", bin.path(),
                 "."
             ], { cwd: baseDir }).catch(err => {
                 log.write(`Cannot build from source: ${err}`);
@@ -84,7 +85,8 @@ bin.run("version").then(() => {
 
                     await execa("go", [
                         "build",
-                        "-o", path.join(baseDir, "changelog", "bin", "changelog"),
+                        "-mod=mod",
+                        "-o", path.join(baseDir, bin.path()),
                         "."
                     ], { cwd: path.join(temp, `changelog-${ref}`) });
 

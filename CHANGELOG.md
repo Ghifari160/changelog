@@ -13,6 +13,9 @@ This project attempts to adhere to [Semantic Versioning](https://semver.org/spec
 
 ### Changed
 
+- When installing from NPM, Changelog precompiled binary is now installed to `vendor/changelog/bin/changelog` (`vendor\changelog\bin\changelog.exe` on Windows).
+  The preinstallation hook will build to this directory as well.
+
 ### Deprecated
 
 ### Removed

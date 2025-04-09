@@ -18,5 +18,5 @@ node_modules/
 
 # Project ignores
 CHANGELOG.test.md
-changelog/
+vendor/changelog
 install.log

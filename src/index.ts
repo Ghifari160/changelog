@@ -4,7 +4,7 @@ import { downloadURL } from "./info";
 import BinWrapper from "./wrapper";
 
 const changelog = new BinWrapper()
-    .dest("changelog")
+    .dest(path.join("vendor", "changelog"))
     .use(path.join("bin", process.platform === "win32" ? "changelog.exe" : "changelog"))
 
     .src(downloadURL("linux", "ia32"), "linux", "ia32")
