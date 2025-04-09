@@ -22,6 +22,7 @@ on:
       - 'command/**'
       - 'keepachangelog/**'
       - 'markdown/**'
+  workflow_dispatch:
 
 jobs:
   build-go:

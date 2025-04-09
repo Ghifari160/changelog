@@ -16,6 +16,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'src/**'
+  workflow_dispatch:
 
 jobs:
   build-node:
