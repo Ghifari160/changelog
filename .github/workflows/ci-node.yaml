@@ -2,20 +2,20 @@ name: Build and test NodeJS wrapper
 on:
   push:
     paths:
-      - '.github/workflows/build-node.yaml'
+      - '.github/workflows/ci-node.yaml'
       - 'package.json'
       - 'package-lock.json'
-      - 'src/**'
+      - 'wrapper/**'
     branches:
       - '*'
     tags-ignore:
       - '*'
   pull_request:
     paths:
-      - '.github/workflows/build-node.yaml'
+      - '.github/workflows/ci-node.yaml'
       - 'package.json'
       - 'package-lock.json'
-      - 'src/**'
+      - 'wrapper/**'
   workflow_dispatch:
 
 jobs:
