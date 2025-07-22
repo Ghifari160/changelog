@@ -5,9 +5,9 @@
   "main": "dist/index.mjs",
   "scripts": {
     "prepack": "npm run build",
-    "prebuild": "tsc -d -p ./src/tsconfig.mjs.json",
+    "prebuild": "tsc -d -p ./wrapper/tsconfig.mjs.json",
     "build": "npm run prebuild && npm run build:ts",
-    "build:ts": "mjscjs -p ./src/tsconfig.mjs.json",
+    "build:ts": "mjscjs -p ./wrapper/tsconfig.mjs.json",
     "clean": "del-cli dist vendor/changelog"
   },
   "repository": {
@@ -36,7 +36,7 @@
     "README.md",
     "LICENSE",
     "CHANGELOG.md",
-    "src",
+    "wrapper",
     "dist"
   ],
   "devDependencies": {
