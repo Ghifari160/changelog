@@ -2,7 +2,7 @@ name: Build and test Go
 on:
   push:
     paths:
-      - '.github/workflows/build-go.yaml'
+      - '.github/workflows/ci-go.yaml'
       - 'go.mod'
       - 'go.sum'
       - 'main.go'
@@ -15,7 +15,7 @@ on:
       - '*'
   pull_request:
     paths:
-      - '.github/workflows/build-go.yaml'
+      - '.github/workflows/ci-go.yaml'
       - 'go.mod'
       - 'go.sum'
       - 'main.go'
@@ -47,5 +47,16 @@ jobs:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: go build .
-      - name: Run all tests
-        run: go test ./...
+
+  test-go:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: "go.mod"
+      - uses: robherley/go-test-action@v0.6.0
+        with:
+          omit: |
+            pie
+            untested
