@@ -49,6 +49,8 @@ func CommandGet(ctx *cli.Context) error {
 		targets = append(targets, strings.ToLower(version))
 	}
 
+	normalizeVersions(targets)
+
 	f, err := os.OpenFile(ctx.Path("file"), os.O_RDONLY, 0644)
 	if err != nil {
 		return cli.Exit(fmt.Sprintf("Cannot open changelog file %s!", ctx.Path("file")), 1)

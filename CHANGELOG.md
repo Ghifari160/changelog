@@ -16,6 +16,8 @@ This project attempts to adhere to [Semantic Versioning](https://semver.org/spec
 - When installing from NPM, Changelog precompiled binary is now installed to `vendor/changelog/bin/changelog` (`vendor\changelog\bin\changelog.exe` on Windows).
 - When installing from NPM, installation of the Changelog binary is now delayed until first execution.
   This way, we're no longer relying on installation hooks (which can be skipped by the user) to properly install the Changelog binary.
+- `get` and `promote` commands now strips leading `v` from version targets.
+  Running `changelog get v0.2.0` will match `0.2.0`, and running `changelog promote v0.3.0` will create a version section with `0.3.0` as the heading.
 
 ### Deprecated
 

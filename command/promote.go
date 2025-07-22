@@ -38,7 +38,7 @@ func CommandPromote(ctx *cli.Context) error {
 		return cli.ShowSubcommandHelp(ctx)
 	}
 
-	target := ctx.Args().First()
+	target := normalizeVersion(ctx.Args().First())
 
 	f, err := os.Open(ctx.Path("file"))
 	if err != nil {
