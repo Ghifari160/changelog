@@ -33,6 +33,7 @@
   },
   "files": [
     "package.json",
+    "package-lock.json",
     "README.md",
     "LICENSE",
     "CHANGELOG.md",
