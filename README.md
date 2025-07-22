@@ -56,8 +56,11 @@ On systems with NPM installed, you can install Changelog with NPM.
 npm install @ghifari160/changelog
 ```
 
-**Note:** the NodeJS wrapper makes use of pre-installation hook to download the pre-compiled binary on supported platforms.
-The installation will *silently fail* if installed with `--ignore-scripts`.
+**Note:** on older versions, the installation will *silently fail* if installed with
+`--ignore-scripts`.
+These older versions rely on installation hooks to install the Changelog binary.
+As of Changelog v0.3.0, it is safe to use `--ignore-scripts`.
+The binary installation happens on first execution instead.
 
 If installed locally in a project, you can run the tool through NPM
 
