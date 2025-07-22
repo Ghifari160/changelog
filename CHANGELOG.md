@@ -7,9 +7,7 @@ All notable changes in Changelog will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project attempts to adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [UNRELEASED]
-
-### Added
+## [0.3.0] - 2025-07-22
 
 ### Changed
 
@@ -18,14 +16,6 @@ This project attempts to adhere to [Semantic Versioning](https://semver.org/spec
   This way, we're no longer relying on installation hooks (which can be skipped by the user) to properly install the Changelog binary.
 - `get` and `promote` commands now strips leading `v` from version targets.
   Running `changelog get v0.2.0` will match `0.2.0`, and running `changelog promote v0.3.0` will create a version section with `0.3.0` as the heading.
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## [0.2.0] - 2025-04-08
 
