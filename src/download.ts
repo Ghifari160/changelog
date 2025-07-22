@@ -4,7 +4,18 @@ import { pipeline } from "stream/promises";
 import { extract } from "./decompress";
 import { tempFileTask } from "./temp";
 
+switch(process.env["NODE_ENV"]) {
+case "dev":
+case "development":
+    break;
+
+default:
+    console.debug = () => {};
+}
+
 export async function download(url: string, dest: string) {
+    console.debug(`Downloading ${dest} from ${url}`);
+
     const resp = await fetch(url);
     const writeStream = fs.createWriteStream(dest);
 

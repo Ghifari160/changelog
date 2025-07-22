@@ -8,6 +8,15 @@ import { execa } from "execa";
 
 import { downloadAndExtract } from "./download";
 
+switch(process.env["NODE_ENV"]) {
+case "dev":
+case "development":
+    break;
+
+default:
+    console.debug = () => {};
+}
+
 interface Source {
     os: Platform,
     arch: Arch,
@@ -94,13 +103,16 @@ class BinWrapper {
 
         await this.ensureExist();
 
-        return execa(this.path(), args);
+        return execa(this.path(), args, { stdout: "inherit", stderr: "inherit" });
     }
 
     async ensureExist(): Promise<void> {
         if(fs.existsSync(this.path())) {
+            console.debug("Changelog binary found in", this.path());
             return;
         }
+
+        console.debug("Changelog binary does not exist!");
 
         await this.download();
     }
