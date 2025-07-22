@@ -21,6 +21,7 @@ interface Package {
         type: "git",
         url: string,
     },
+    bin: {},
 }
 
 function getPackage(dir: string = path.join(__dirname, "..")): Package {
@@ -46,4 +47,8 @@ function fillVars(str: string, os?: Platform, arch?: Arch, refs: string = "tags"
         .replaceAll(/__PLATFORM__/g, osArchPair(os || process.platform, arch || process.arch))
         .replaceAll(/__REFS__/g, refs)
         .replaceAll(/__REF__/g, ref || info.version);
+}
+
+export function bin(): Map<string, string> {
+    return new Map(Object.entries(info.bin));
 }
