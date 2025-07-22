@@ -4,40 +4,85 @@ on:
     tags:
       - "*"
 
+permissions:
+  contents: write
+
 jobs:
-  build-go:
-    strategy:
-      fail-fast: false
-      matrix:
-        goos: [ "linux", "darwin", "windows", "freebsd" ]
-        goarch: [ "amd64", "386", "arm", "arm64" ]
-        exclude:
-          - goos: "darwin"
-            goarch: "386"
-          - goos: "darwin"
-            goarch: "arm"
-
+  prepare-release:
     runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-
-    env:
-      GOOS: ${{ matrix.goos }}
-      GOARCH: ${{ matrix.goarch }}
-
+    outputs:
+      version-id: ${{ steps.get_vars.outputs.VERSION_ID }}
+      tag-name: ${{ steps.get_vars.outputs.TAG_NAME }}
+      archive-name: ${{ steps.get_vars.outputs.ARCHIVE_NAME }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
           go-version-file: "go.mod"
-
       - name: Setup variables
         id: get_vars
         run: |
           TAG=${GITHUB_REF/refs\/tags\//}
+          echo "VERSION_ID=${TAG#v}" >> $GITHUB_ENV
+          echo "VERSION_ID=${TAG#v}" >> $GITHUB_OUTPUT
           echo "TAG_NAME=$TAG" >> $GITHUB_ENV
-          echo "ARCHIVE_NAME=changelog-${GOOS}_${GOARCH}-$TAG.tar.gz" >> $GITHUB_ENV
+          echo "TAG_NAME=$TAG" >> $GITHUB_OUTPUT
+          echo "ARCHIVE_NAME=changelog-{0}_{1}-{2}.tar.gz" >> $GITHUB_ENV
+          echo "ARCHIVE_NAME=changelog-{0}_{1}-{2}.tar.gz" >> $GITHUB_OUTPUT
+      - name: Fetch release body
+        uses: cardinalby/git-get-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          releaseName: ${{ env.TAG_NAME }}
+          draft: true
+          doNotFailIfNotFound: true
+      - name: Write release body
+        env:
+          RELEASE_BODY: ${{ steps.release.outputs.body }}
+        run: |
+          echo "$RELEASE_BODY" >> RELEASE.md
+          echo "## Changelog" >> RELEASE.md
+          go run . get -v $VERSION_ID >> RELEASE.md
+      - name: Update release
+        uses: Wandalen/wretry.action@v3
+        with:
+          action: ncipollo/release-action@v1
+          attempt_limit: 5
+          attempt_delay: 250
+          with: |
+            allowUpdates: true
+            name: ${{ env.TAG_NAME }}
+            draft: true
+            tag: ${{ env.VERSION_ID }}
+            bodyFile: RELEASE.md
 
+  build-go:
+    needs: prepare-release
+    strategy:
+      fail-fast: false
+      matrix:
+        goos: [ linux, darwin, windows, freebsd ]
+        goarch: [ amd64, 386, arm, arm64 ]
+        exclude:
+          - goos: darwin
+            goarch: 386
+          - goos: darwin
+            goarch: arm
+          - goos: windows
+            goarch: arm
+    runs-on: ubuntu-24.04
+    env:
+      GOOS: ${{ matrix.goos }}
+      GOARCH: ${{ matrix.goarch }}
+      VERSION_ID: ${{ needs.prepare-release.outputs.version-id }}
+      TAG_NAME: ${{ needs.prepare-release.outputs.tag-name }}
+      ARCHIVE_NAME: ${{ format(needs.prepare-release.outputs.archive-name, matrix.goos, matrix.goarch, needs.prepare-release.outputs.version-id) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: "go.mod"
       - name: Build binary
         env:
           BIN_EXT: ${{ matrix.goos == 'windows' && '.exe' || '' }}
@@ -50,26 +95,6 @@ jobs:
           cd out && \
           tar -zcf "../$ARCHIVE_NAME" . && \
           cd ..
-
-      - name: Fetch release body
-        id: release
-        uses: cardinalby/git-get-release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          releaseName: ${{ env.TAG_NAME }}
-          draft: true
-          doNotFailIfNotFound: true
-      - name: Write release body
-        env:
-          RELEASE_BODY: ${{ steps.release.outputs.body }}
-          GOOS: linux
-          GOARCH: amd64
-        run: |
-          echo "$RELEASE_BODY" >> RELEASE.md
-          echo "## Changelog" >> RELEASE.md
-          go run . get -v $TAG_NAME >> RELEASE.md
-
       - name: Update release with files
         uses: Wandalen/wretry.action@v3
         with:
@@ -79,14 +104,11 @@ jobs:
           with: |
             allowUpdates: true
             name: ${{ env.TAG_NAME }}
-            draft: false
-            omitDraftDuringUpdate: true
-            omitPrereleaseDuringUpdate: true
+            draft: true
+            omitBodyDuringUpdate: true
             replacesArtifacts: false
             artifacts: './${{ env.ARCHIVE_NAME }}'
-            tag: ${{ env.TAG_NAME }}
-            bodyFile: RELEASE.md
-
+            tag: ${{ env.VERSION_ID }}
       - uses: s3-actions/s3cmd@v1.9.0
         with:
           provider: ${{ vars.S3_PROVIDER }}
@@ -95,31 +117,42 @@ jobs:
           secret_key: ${{ secrets.S3_SECRET_KEY }}
       - name: Upload archive to S3
         env:
-          OUTPUT: ${{ vars.S3_BUCKET }}/${{ env.TAG_NAME }}/
+          OUTPUT: ${{ vars.S3_BUCKET }}/${{ env.VERSION_ID }}/
         run: |
           s3cmd put "$ARCHIVE_NAME" -P "$OUTPUT"
 
   build-wrapper:
-    runs-on: ubuntu-24.04
-    needs: build-go
     permissions:
-      contents: read
+      contents: write
       id-token: write
+    needs: [prepare-release, build-go]
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           cache: "npm"
           registry-url: "https://registry.npmjs.org"
-      - name: Install dependencies (without script)
-        run: npm ci --ignore-scripts
+      - name: Install dependencies
+        run: npm ci
       - name: Build wrapper and scripts
         run: npm run build
-      - name: Reinstall dependencies
-        run: npm ci
       - name: Prepare workspace
         run: npm run clean
-      - name: Publish wrapper (dry-run)
+      - name: Publish wrapper
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --provenance --access public
+      - name: Update release
+        uses: Wandalen/wretry.action@v3
+        with:
+          action: ncipollo/release-action@v1
+          attempt_limit: 5
+          attempt_delay: 250
+          with: |
+            allowUpdates: true
+            name: ${{ env.TAG_NAME }}
+            draft: false
+            omitBodyDuringUpdate: true
+            replacesArtifacts: false
+            tag: ${{ env.VERSION_ID }}
