@@ -3,8 +3,10 @@ import path from "path";
 import { downloadURL } from "./info";
 import BinWrapper from "./wrapper";
 
+const __dirname = import.meta.dirname;
+
 const changelog = new BinWrapper()
-    .dest(path.join("vendor", "changelog"))
+    .dest(path.join(__dirname, "..", "vendor", "changelog"))
     .use(path.join("bin", process.platform === "win32" ? "changelog.exe" : "changelog"))
 
     .src(downloadURL("linux", "ia32"), "linux", "ia32")
