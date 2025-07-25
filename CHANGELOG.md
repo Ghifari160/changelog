@@ -19,10 +19,14 @@ This project attempts to adhere to [Semantic Versioning](https://semver.org/spec
 
 ### Fixed
 
+### Security
+
+## [0.3.1] - 2025-07-25
+
+### Fixed
+
 - Fixed a bug where Changelog binary would be installed relative to the current working directory.
   The installation location is now relative to the module directory in `node_modules`.
-
-### Security
 
 ## [0.3.0] - 2025-07-22
 
