@@ -7,21 +7,11 @@ All notable changes in Changelog will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project attempts to adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [UNRELEASED]
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
+## [0.3.2] - 2025-08-07
 
 ### Fixed
 
 - Fixed an issue where sublists are not preserved on operations (#2).
-
-### Security
 
 ## [0.3.1] - 2025-07-25
 

@@ -1,6 +1,6 @@
 {
   "name": "@ghifari160/changelog",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A simple tool to manage Keep a Changelog changelogs.",
   "main": "dist/index.mjs",
   "scripts": {

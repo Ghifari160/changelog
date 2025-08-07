@@ -19,7 +19,7 @@ func main() {
 	cmd := cli.App{
 		Name:                  "Changelog",
 		HelpName:              "changelog",
-		Version:               "0.3.1",
+		Version:               "0.3.2",
 		Copyright:             "(c) 2025 GHIFARI160",
 		HideVersion:           true,
 		CustomAppHelpTemplate: helpTemplate,
