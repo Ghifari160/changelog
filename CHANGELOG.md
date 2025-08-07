@@ -19,6 +19,8 @@ This project attempts to adhere to [Semantic Versioning](https://semver.org/spec
 
 ### Fixed
 
+- Fixed an issue where sublists are not preserved on operations (#2).
+
 ### Security
 
 ## [0.3.1] - 2025-07-25

@@ -35,7 +35,7 @@ func (s *ChangelogTestSuite) TestUnreleased() {
 					{
 						Heading: "Changed",
 						Changes: []string{
-							"Default preset now uses XXH3_64.",
+							"- Default preset now uses XXH3_64.",
 						},
 					},
 				},
@@ -85,7 +85,7 @@ func (s *ChangelogTestSuite) TestReleased() {
 					{
 						Heading: "Added",
 						Changes: []string{
-							"Added support for multiple target directories.",
+							"- Added support for multiple target directories.",
 						},
 					},
 					{
@@ -95,7 +95,7 @@ func (s *ChangelogTestSuite) TestReleased() {
 					{
 						Heading: "Removed",
 						Changes: []string{
-							"Removed -v parameter.",
+							"- Removed -v parameter.",
 						},
 					},
 				},
@@ -118,7 +118,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0).
 
 - Removed -v parameter.
 `
-	marshaledJSON := `{"description":"This is a test Changelog.\nThe format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0).","versions":[{"name":"0.1.0","release_date":"2023-08-24T00:00:00Z","unreleased":false,"yanked":false,"contents":[{"heading":"Added","changes":["Added support for multiple target directories."]},{"heading":"Removed","changes":["Removed -v parameter."]}]}]}`
+	marshaledJSON := `{"description":"This is a test Changelog.\nThe format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0).","versions":[{"name":"0.1.0","release_date":"2023-08-24T00:00:00Z","unreleased":false,"yanked":false,"contents":[{"heading":"Added","changes":["- Added support for multiple target directories."]},{"heading":"Removed","changes":["- Removed -v parameter."]}]}]}`
 
 	s.Run("MarshalMarkdown", func() {
 		md, err := markdown.Marshal(c)
@@ -156,7 +156,7 @@ func (s *ChangelogTestSuite) TestYanked() {
 					{
 						Heading: "Added",
 						Changes: []string{
-							"Added support for multiple target directories.",
+							"- Added support for multiple target directories.",
 						},
 					},
 				},
